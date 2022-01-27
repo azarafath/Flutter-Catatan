@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "851207093886",
+    "project_id": "catatan-3fbf5",
+    "storage_bucket": "catatan-3fbf5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851207093886:android:b29fa75e5301ccb423e22f",
+        "android_client_info": {
+          "package_name": "id.my.azarafath.catatan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "851207093886-ubh11gbkjp46cs3b8a0rol216eualmqk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD9kygjBERo0bwyseTe6w35Lq2sWEMmX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "851207093886-ubh11gbkjp46cs3b8a0rol216eualmqk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
