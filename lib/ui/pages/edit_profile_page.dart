@@ -1,10 +1,17 @@
+import 'package:catatan/services/user_service.dart';
+import 'package:flutter/material.dart';
+
+import 'package:catatan/models/user_model.dart';
 import 'package:catatan/shared/theme.dart';
 import 'package:catatan/ui/widgets/custom_button.dart';
 import 'package:catatan/ui/widgets/custom_text_form_field.dart';
-import 'package:flutter/material.dart';
 
 class EditProfile extends StatelessWidget {
-  EditProfile({Key? key}) : super(key: key);
+  final UserModel userModel;
+  EditProfile({
+    Key? key,
+    required this.userModel,
+  }) : super(key: key);
   final TextEditingController _namaController = TextEditingController();
   final TextEditingController _pekerjaanController = TextEditingController();
   final TextEditingController _hobiController = TextEditingController();
@@ -13,7 +20,6 @@ class EditProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget header() {
       return Container(
-        margin: const EdgeInsets.only(top: 25),
         padding: const EdgeInsets.only(left: 12, right: 12),
         width: double.infinity,
         child: Stack(
@@ -72,23 +78,42 @@ class EditProfile extends StatelessWidget {
             ),
             CustomTextFormField(
               title: 'Nama Lengkap',
-              hintText: 'Masukkan Nama',
+              hintText: userModel.name == '' ? 'Masukkan Nama' : userModel.name,
               controller: _namaController,
             ),
             CustomTextFormField(
               title: 'Pekerjaan',
-              hintText: 'Masukkan Pekerjaan',
+              hintText:
+                  userModel.job == '' ? 'Masukkan Pekerjaan' : userModel.job,
               controller: _pekerjaanController,
             ),
             CustomTextFormField(
               title: 'Hobi',
-              hintText: 'Masukkan Hobi',
+              hintText:
+                  userModel.hobby == '' ? 'Masukkan Hobi' : userModel.hobby,
               controller: _hobiController,
             ),
             CustomButton(
               margin: const EdgeInsets.only(top: 16, bottom: 30),
               width: double.infinity,
-              onPressed: () {},
+              onPressed: () {
+                UserService().updateUser(
+                  userModel.id,
+                  userModel.email,
+                  _namaController.text == ''
+                      ? userModel.name
+                      : _namaController.text,
+                  _pekerjaanController.text == ''
+                      ? userModel.job
+                      : _pekerjaanController.text,
+                  _hobiController.text == ''
+                      ? userModel.hobby
+                      : _hobiController.text,
+                );
+                UserService().getUserById(userModel.id).then((value) {
+                  Navigator.pop(context);
+                });
+              },
               title: 'Simpan',
               color: kGreenColor,
             )

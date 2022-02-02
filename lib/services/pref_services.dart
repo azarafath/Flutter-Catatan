@@ -14,9 +14,6 @@ class PrefServices {
     String value = '';
     if (pref.getString(id) != null) {
       value = pref.getString(id)!;
-      print('Ada data');
-    } else {
-      print('Tidak ada data');
     }
     return value;
   }
@@ -24,7 +21,6 @@ class PrefServices {
   Future<bool> deletePref() async {
     var pref = await getPreferences();
     pref.remove(id);
-    print('sukses');
     return true;
   }
 }

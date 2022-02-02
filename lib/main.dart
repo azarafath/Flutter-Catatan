@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
           '/': (_) => const SplashScreenPage(),
           '/sign-up': (_) => SignUpPage(),
           '/sign-in': (_) => SignInPage(),
-          '/edit-profile': (_) => EditProfile(),
         },
       ),
     );

@@ -1,5 +1,7 @@
 import 'package:catatan/models/note_model.dart';
+import 'package:catatan/models/user_model.dart';
 import 'package:catatan/services/note_service.dart';
+import 'package:catatan/services/user_service.dart';
 import 'package:catatan/shared/theme.dart';
 import 'package:catatan/ui/pages/edit_note_page.dart';
 import 'package:catatan/ui/pages/setting_page.dart';
@@ -11,14 +13,19 @@ import 'add_note_page.dart';
 class HomePage extends StatefulWidget {
   final String id;
   const HomePage({Key? key, required this.id}) : super(key: key);
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  late final UserModel _usermodel;
   @override
   void initState() {
+    UserService().getUserById(widget.id).then((model) {
+      setState(() {
+        _usermodel = model;
+      });
+    });
     super.initState();
   }
 
@@ -39,8 +46,14 @@ class _HomePageState extends State<HomePage> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SettingPage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SettingPage(
+                      userModel: _usermodel,
+                    ),
+                  ),
+                );
               },
               child: Container(
                 height: 40,

@@ -1,11 +1,18 @@
-import 'package:catatan/services/pref_services.dart';
+import 'package:catatan/ui/pages/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:catatan/cubit/auth_cubit.dart';
+import 'package:catatan/models/user_model.dart';
+import 'package:catatan/services/pref_services.dart';
 import 'package:catatan/shared/theme.dart';
 
 class SettingPage extends StatelessWidget {
-  const SettingPage({Key? key}) : super(key: key);
+  final UserModel userModel;
+  const SettingPage({
+    Key? key,
+    required this.userModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,35 +61,42 @@ class SettingPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            Row(
-              children: [
-                Image.asset(
-                  'assets/profile.png',
-                  width: 72,
-                ),
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Who am I',
-                          style: blackTextStyle.copyWith(fontSize: 16),
-                        ),
-                        Text(
-                          'whoami@gmail.com',
-                          style: greyTextStyle.copyWith(fontSize: 14),
-                        )
-                      ],
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditProfile(
+                      userModel: userModel,
                     ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/edit-profile');
-                  },
-                  child: Container(
+                );
+              },
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/profile.png',
+                    width: 65,
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            userModel.name,
+                            style: blackTextStyle.copyWith(fontSize: 16),
+                          ),
+                          Text(
+                            userModel.email,
+                            style: greyTextStyle.copyWith(fontSize: 14),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
                     width: 16,
                     height: 25,
                     decoration: const BoxDecoration(
@@ -90,9 +104,9 @@ class SettingPage extends StatelessWidget {
                         image: AssetImage('assets/nexticon.png'),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             )
           ],
         ),
@@ -113,44 +127,44 @@ class SettingPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/dark.png',
-                      width: 45,
-                    ),
-                    const SizedBox(width: 15),
-                    Text(
-                      'Dark Mode',
-                      style: blackTextStyle.copyWith(fontSize: 16),
-                    ),
-                    const Spacer(),
-                    // switch button dark mode
-                    Container(
-                      width: 50,
-                      height: 25,
-                      decoration: BoxDecoration(
-                        color: kGreyColor1,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Container(
-                        margin:
-                            const EdgeInsets.only(top: 5, bottom: 5, right: 25),
-                        width: 25,
-                        height: 25,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: kPrimaryColor,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 15),
-              ],
-            ),
+            // Column(
+            //   children: [
+            //     Row(
+            //       children: [
+            //         Image.asset(
+            //           'assets/dark.png',
+            //           width: 45,
+            //         ),
+            //         const SizedBox(width: 15),
+            //         Text(
+            //           'Dark Mode',
+            //           style: blackTextStyle.copyWith(fontSize: 16),
+            //         ),
+            //         const Spacer(),
+            //         // switch button dark mode
+            //         Container(
+            //           width: 50,
+            //           height: 25,
+            //           decoration: BoxDecoration(
+            //             color: kGreyColor1,
+            //             borderRadius: BorderRadius.circular(25),
+            //           ),
+            //           child: Container(
+            //             margin:
+            //                 const EdgeInsets.only(top: 5, bottom: 5, right: 25),
+            //             width: 25,
+            //             height: 25,
+            //             decoration: BoxDecoration(
+            //               shape: BoxShape.circle,
+            //               color: kPrimaryColor,
+            //             ),
+            //           ),
+            //         )
+            //       ],
+            //     ),
+            //     const SizedBox(height: 15),
+            //   ],
+            // ),
             Row(
               children: [
                 Image.asset(

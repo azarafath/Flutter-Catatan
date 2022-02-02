@@ -33,4 +33,23 @@ class UserService {
       rethrow;
     }
   }
+
+  Future<void> updateUser(
+    String id,
+    String email,
+    String name,
+    String job,
+    String hobby,
+  ) async {
+    try {
+      await _userReference.doc(id).update({
+        'email': email,
+        'name': name,
+        'job': job,
+        'hobby': hobby,
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
