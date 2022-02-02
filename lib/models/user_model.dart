@@ -15,6 +15,16 @@ class UserModel extends Equatable {
     this.hobby = '',
   });
 
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'],
+      email: json['email'],
+      name: json['name'],
+      hobby: json['hobby'],
+      job: json['job'],
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,

@@ -1,6 +1,5 @@
 import 'package:catatan/services/user_service.dart';
 import 'package:flutter/material.dart';
-
 import 'package:catatan/models/user_model.dart';
 import 'package:catatan/shared/theme.dart';
 import 'package:catatan/ui/widgets/custom_button.dart';
@@ -110,9 +109,7 @@ class EditProfile extends StatelessWidget {
                       ? userModel.hobby
                       : _hobiController.text,
                 );
-                UserService().getUserById(userModel.id).then((value) {
-                  Navigator.pop(context);
-                });
+                Navigator.pop(context);
               },
               title: 'Simpan',
               color: kGreenColor,

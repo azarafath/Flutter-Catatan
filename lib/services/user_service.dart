@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:catatan/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -29,6 +31,19 @@ class UserService {
         job: snapshot['job'],
         hobby: snapshot['hobby'],
       );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Stream<UserModel> stremUserbyID(String id) {
+    try {
+      return _userReference
+          .doc(id)
+          .snapshots()
+          .map((DocumentSnapshot snapshot) {
+        return UserModel.fromJson(snapshot.data() as Map<String, dynamic>);
+      });
     } catch (e) {
       rethrow;
     }

@@ -34,19 +34,6 @@ class NoteServices {
     }
   }
 
-  // Future<List<NoteModel>> getNote(String id) async {
-  //   try {
-  //     QuerySnapshot result =
-  //         await _noteReference.where('id', isEqualTo: id).get();
-  //     List<NoteModel> note = result.docs.map((e) {
-  //       return NoteModel.fromJson(e.id, e.data() as Map<String, dynamic>);
-  //     }).toList();
-  //     return note;
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
-
   Stream<List<NoteModel>> getNotes(String id) {
     try {
       return _noteReference

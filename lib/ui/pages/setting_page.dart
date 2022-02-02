@@ -1,3 +1,4 @@
+import 'package:catatan/services/user_service.dart';
 import 'package:catatan/ui/pages/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,10 +9,10 @@ import 'package:catatan/services/pref_services.dart';
 import 'package:catatan/shared/theme.dart';
 
 class SettingPage extends StatelessWidget {
-  final UserModel userModel;
+  final String id;
   const SettingPage({
     Key? key,
-    required this.userModel,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -46,7 +47,7 @@ class SettingPage extends StatelessWidget {
       );
     }
 
-    Widget akun() {
+    Widget akun(UserModel user) {
       return Container(
         width: double.infinity,
         margin: const EdgeInsets.only(left: 24, right: 24, top: 30),
@@ -67,7 +68,7 @@ class SettingPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => EditProfile(
-                      userModel: userModel,
+                      userModel: user,
                     ),
                   ),
                 );
@@ -85,11 +86,11 @@ class SettingPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            userModel.name,
+                            user.name,
                             style: blackTextStyle.copyWith(fontSize: 16),
                           ),
                           Text(
-                            userModel.email,
+                            user.email,
                             style: greyTextStyle.copyWith(fontSize: 14),
                           )
                         ],
@@ -127,44 +128,44 @@ class SettingPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            // Column(
-            //   children: [
-            //     Row(
-            //       children: [
-            //         Image.asset(
-            //           'assets/dark.png',
-            //           width: 45,
-            //         ),
-            //         const SizedBox(width: 15),
-            //         Text(
-            //           'Dark Mode',
-            //           style: blackTextStyle.copyWith(fontSize: 16),
-            //         ),
-            //         const Spacer(),
-            //         // switch button dark mode
-            //         Container(
-            //           width: 50,
-            //           height: 25,
-            //           decoration: BoxDecoration(
-            //             color: kGreyColor1,
-            //             borderRadius: BorderRadius.circular(25),
-            //           ),
-            //           child: Container(
-            //             margin:
-            //                 const EdgeInsets.only(top: 5, bottom: 5, right: 25),
-            //             width: 25,
-            //             height: 25,
-            //             decoration: BoxDecoration(
-            //               shape: BoxShape.circle,
-            //               color: kPrimaryColor,
-            //             ),
-            //           ),
-            //         )
-            //       ],
-            //     ),
-            //     const SizedBox(height: 15),
-            //   ],
-            // ),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      'assets/dark.png',
+                      width: 45,
+                    ),
+                    const SizedBox(width: 15),
+                    Text(
+                      'Dark Mode',
+                      style: blackTextStyle.copyWith(fontSize: 16),
+                    ),
+                    const Spacer(),
+                    // switch button dark mode
+                    Container(
+                      width: 50,
+                      height: 25,
+                      decoration: BoxDecoration(
+                        color: kGreyColor1,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: Container(
+                        margin:
+                            const EdgeInsets.only(top: 5, bottom: 5, right: 25),
+                        width: 25,
+                        height: 25,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: kPrimaryColor,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 15),
+              ],
+            ),
             Row(
               children: [
                 Image.asset(
@@ -258,13 +259,23 @@ class SettingPage extends StatelessWidget {
     }
 
     return Scaffold(
-      body: Column(
-        children: [
-          header(),
-          akun(),
-          pengaturan(),
-          buttonKeluar(),
-        ],
+      body: StreamBuilder<UserModel>(
+        stream: UserService().stremUserbyID(id),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              children: [
+                header(),
+                akun(snapshot.data!),
+                pengaturan(),
+                buttonKeluar(),
+              ],
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }

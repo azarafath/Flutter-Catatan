@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => SettingPage(
-                      userModel: _usermodel,
+                      id: _usermodel.id,
                     ),
                   ),
                 );
