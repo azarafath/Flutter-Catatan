@@ -1,4 +1,5 @@
 import 'package:catatan/cubit/auth_cubit.dart';
+import 'package:catatan/services/pref_services.dart';
 import 'package:catatan/shared/theme.dart';
 import 'package:catatan/ui/widgets/custom_button.dart';
 import 'package:catatan/ui/widgets/custom_text_form_field.dart';
@@ -73,6 +74,7 @@ class SignUpPage extends StatelessWidget {
         return BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
+              PrefServices().setPref(state.user.id);
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(

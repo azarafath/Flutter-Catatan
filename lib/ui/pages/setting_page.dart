@@ -1,7 +1,8 @@
-import 'package:catatan/cubit/auth_cubit.dart';
-import 'package:catatan/shared/theme.dart';
+import 'package:catatan/services/pref_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:catatan/cubit/auth_cubit.dart';
+import 'package:catatan/shared/theme.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -228,6 +229,7 @@ class SettingPage extends StatelessWidget {
             ),
             child: TextButton(
               onPressed: () {
+                PrefServices().deletePref();
                 context.read<AuthCubit>().signOut();
               },
               child: Text(

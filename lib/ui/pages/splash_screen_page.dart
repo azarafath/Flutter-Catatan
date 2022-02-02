@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:catatan/services/pref_services.dart';
 import 'package:catatan/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
+import 'home_page.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({Key? key}) : super(key: key);
@@ -14,9 +17,20 @@ class SplashScreenPage extends StatefulWidget {
 class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   void initState() {
-    Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacementNamed('/sign-up');
-    });
+    PrefServices().getPref().then((id) => Timer(const Duration(seconds: 3), () {
+          if (id != '') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomePage(
+                  id: id,
+                ),
+              ),
+            );
+          } else {
+            Navigator.pushReplacementNamed(context, '/sign-up');
+          }
+        }));
     super.initState();
   }
 

@@ -1,11 +1,9 @@
-import 'package:catatan/cubit/auth_cubit.dart';
 import 'package:catatan/models/note_model.dart';
 import 'package:catatan/services/note_service.dart';
 import 'package:catatan/shared/theme.dart';
 import 'package:catatan/ui/pages/edit_note_page.dart';
 import 'package:catatan/ui/pages/setting_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'add_note_page.dart';
@@ -19,8 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isData = false;
-
   @override
   void initState() {
     super.initState();
@@ -43,12 +39,8 @@ class _HomePageState extends State<HomePage> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SettingPage(),
-                  ),
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingPage()));
               },
               child: Container(
                 height: 40,
@@ -163,52 +155,48 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
-      backgroundColor: kBackgroundColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: kBackgroundColor,
-        flexibleSpace: header(),
-        elevation: 0,
-      ),
-      body: ListView(
-        children: [
-          StreamBuilder<List<NoteModel>>(
-            stream: NoteServices().getNotes(widget.id),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return viewNotes(snapshot.data!);
-              } else {
-                return catatanKosong();
-              }
-            },
-          ),
-        ],
-      ),
-      floatingActionButton: BlocBuilder<AuthCubit, AuthState>(
-        builder: (context, state) {
-          if (state is AuthSuccess) {
-            return FloatingActionButton(
-              backgroundColor: kBlueColor,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddNote(
-                      id: state.user.id,
-                    ),
-                  ),
-                );
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: kBackgroundColor,
+          flexibleSpace: header(),
+          elevation: 0,
+        ),
+        body: ListView(
+          children: [
+            StreamBuilder<List<NoteModel>>(
+              stream: NoteServices().getNotes(widget.id),
+              builder: (context, snapshot) {
+                // jika data kosong
+                if (snapshot.data == null) {
+                  return catatanKosong();
+                } else {
+                  // jika data tidak kosong
+                  // ignore: prefer_is_empty
+                  if (snapshot.data?.length == 0) {
+                    return catatanKosong();
+                  } else {
+                    return viewNotes(snapshot.data!);
+                  }
+                }
               },
-              child: const Icon(Icons.add),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: kBlueColor,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddNote(
+                  id: widget.id,
+                ),
+              ),
             );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
+          },
+          child: const Icon(Icons.add),
+        ));
   }
 }
 
