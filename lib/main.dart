@@ -1,5 +1,5 @@
 import 'package:catatan/cubit/auth_cubit.dart';
-import 'package:catatan/ui/pages/edit_profile_page.dart';
+import 'package:catatan/ui/pages/forgot_password_page.dart';
 import 'package:catatan/ui/pages/sign_in_page.dart';
 import 'package:catatan/ui/pages/sign_up_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
           '/': (_) => const SplashScreenPage(),
           '/sign-up': (_) => SignUpPage(),
           '/sign-in': (_) => SignInPage(),
+          '/forgot': (_) => const ForgotPasswordPage(),
         },
       ),
     );

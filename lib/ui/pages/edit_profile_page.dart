@@ -5,21 +5,37 @@ import 'package:catatan/shared/theme.dart';
 import 'package:catatan/ui/widgets/custom_button.dart';
 import 'package:catatan/ui/widgets/custom_text_form_field.dart';
 
-class EditProfile extends StatelessWidget {
+class EditProfile extends StatefulWidget {
   final UserModel userModel;
-  EditProfile({
+  const EditProfile({
     Key? key,
     required this.userModel,
   }) : super(key: key);
+
+  @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
   final TextEditingController _namaController = TextEditingController();
+
   final TextEditingController _pekerjaanController = TextEditingController();
+
   final TextEditingController _hobiController = TextEditingController();
+
+  @override
+  void initState() {
+    _namaController.text = widget.userModel.name;
+    _pekerjaanController.text = widget.userModel.job;
+    _hobiController.text = widget.userModel.hobby;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget header() {
       return Container(
-        padding: const EdgeInsets.only(left: 12, right: 12),
+        padding: const EdgeInsets.only(left: 12, right: 12, top: 5),
         width: double.infinity,
         child: Stack(
           children: [
@@ -77,19 +93,17 @@ class EditProfile extends StatelessWidget {
             ),
             CustomTextFormField(
               title: 'Nama Lengkap',
-              hintText: userModel.name == '' ? 'Masukkan Nama' : userModel.name,
+              hintText: 'Masukkan nama',
               controller: _namaController,
             ),
             CustomTextFormField(
               title: 'Pekerjaan',
-              hintText:
-                  userModel.job == '' ? 'Masukkan Pekerjaan' : userModel.job,
+              hintText: 'Masukkan pekerjaan',
               controller: _pekerjaanController,
             ),
             CustomTextFormField(
               title: 'Hobi',
-              hintText:
-                  userModel.hobby == '' ? 'Masukkan Hobi' : userModel.hobby,
+              hintText: 'Masukkan hobi',
               controller: _hobiController,
             ),
             CustomButton(
@@ -97,17 +111,11 @@ class EditProfile extends StatelessWidget {
               width: double.infinity,
               onPressed: () {
                 UserService().updateUser(
-                  userModel.id,
-                  userModel.email,
-                  _namaController.text == ''
-                      ? userModel.name
-                      : _namaController.text,
-                  _pekerjaanController.text == ''
-                      ? userModel.job
-                      : _pekerjaanController.text,
-                  _hobiController.text == ''
-                      ? userModel.hobby
-                      : _hobiController.text,
+                  widget.userModel.id,
+                  widget.userModel.email,
+                  _namaController.text,
+                  _pekerjaanController.text,
+                  _hobiController.text,
                 );
                 Navigator.pop(context);
               },

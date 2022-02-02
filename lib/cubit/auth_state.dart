@@ -28,3 +28,14 @@ class AuthFailed extends AuthState {
   @override
   List<Object> get props => [error];
 }
+
+class AuthReset extends AuthState {}
+
+class AuthResetFailed extends AuthState {
+  final String error;
+
+  const AuthResetFailed(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

@@ -19,8 +19,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final UserModel _usermodel;
+  late AssetImage image;
   @override
   void initState() {
+    image = const AssetImage('assets/catatankosongnew.gif');
     UserService().getUserById(widget.id).then((model) {
       setState(() {
         _usermodel = model;
@@ -30,10 +32,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    image.evict();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Widget header() {
       return Container(
-        margin: const EdgeInsets.only(left: 24, right: 24, top: 30),
+        margin: const EdgeInsets.only(left: 24, right: 24, top: 35),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -81,9 +89,9 @@ class _HomePageState extends State<HomePage> {
             Container(
               width: 300,
               height: 300,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/catatanKosong.png'),
+                  image: image,
                 ),
               ),
             ),
@@ -100,7 +108,7 @@ class _HomePageState extends State<HomePage> {
       return Scrollbar(
         child: Container(
           padding: const EdgeInsets.only(
-            top: 10,
+            top: 15,
             right: 20,
             left: 20,
           ),

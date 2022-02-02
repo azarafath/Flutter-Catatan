@@ -56,4 +56,12 @@ class AuthService {
       throw e.toString().split(']')[1].trim();
     }
   }
+
+  Future<void> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      throw e.toString().split(']')[1].trim();
+    }
+  }
 }

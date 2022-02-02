@@ -55,11 +55,32 @@ class SignInPage extends StatelessWidget {
       }
 
       Widget passwordInput() {
-        return CustomTextFormField(
-            title: 'Password',
-            hintText: 'Masukkan password anda',
-            obsecureText: true,
-            controller: _passwordController);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            CustomTextFormField(
+                title: 'Password',
+                hintText: 'Masukkan password anda',
+                obsecureText: true,
+                controller: _passwordController),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/forgot');
+              },
+              child: Text(
+                'Lupa Password',
+                style: blackTextStyle.copyWith(
+                  fontSize: 12,
+                  fontWeight: semiBold,
+                  color: kGreyColor,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            )
+          ],
+        );
       }
 
       Widget submitButton() {

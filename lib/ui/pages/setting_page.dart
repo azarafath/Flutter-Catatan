@@ -1,5 +1,4 @@
 import 'package:catatan/services/user_service.dart';
-import 'package:catatan/ui/pages/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +18,7 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget header() {
       return Container(
-        margin: const EdgeInsets.only(top: 25),
+        margin: const EdgeInsets.only(top: 30),
         padding: const EdgeInsets.only(left: 12),
         width: double.infinity,
         child: Row(
@@ -64,14 +63,7 @@ class SettingPage extends StatelessWidget {
             const SizedBox(height: 15),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditProfile(
-                      userModel: user,
-                    ),
-                  ),
-                );
+                Navigator.pop(context);
               },
               child: Row(
                 children: [
