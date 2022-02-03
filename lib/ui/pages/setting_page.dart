@@ -7,13 +7,21 @@ import 'package:catatan/models/user_model.dart';
 import 'package:catatan/services/pref_services.dart';
 import 'package:catatan/shared/theme.dart';
 
-class SettingPage extends StatelessWidget {
+import 'edit_profile_page.dart';
+
+class SettingPage extends StatefulWidget {
   final String id;
   const SettingPage({
     Key? key,
     required this.id,
   }) : super(key: key);
 
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
+  bool isBlack = false;
   @override
   Widget build(BuildContext context) {
     Widget header() {
@@ -27,18 +35,24 @@ class SettingPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.arrow_back_ios_new_rounded,
+                color: isBlack ? Colors.white : Colors.black,
               ),
             ),
             Container(
               margin: const EdgeInsets.only(left: 60),
               child: Text(
                 'Pengaturan',
-                style: blackTextStyle.copyWith(
-                  fontSize: 20,
-                  fontWeight: semiBold,
-                ),
+                style: isBlack
+                    ? whiteTextStyle.copyWith(
+                        fontSize: 20,
+                        fontWeight: semiBold,
+                      )
+                    : blackTextStyle.copyWith(
+                        fontSize: 20,
+                        fontWeight: semiBold,
+                      ),
               ),
             ),
           ],
@@ -55,31 +69,46 @@ class SettingPage extends StatelessWidget {
           children: [
             Text(
               'Akun',
-              style: blackTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: semiBold,
-              ),
+              style: isBlack
+                  ? whiteTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semiBold,
+                    )
+                  : blackTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semiBold,
+                    ),
             ),
             const SizedBox(height: 15),
             GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditProfile(
+                      userModel: user,
+                    ),
+                  ),
+                );
               },
               child: Row(
                 children: [
                   Image.asset(
                     'assets/profile.png',
-                    width: 65,
+                    width: 60,
+                    color: isBlack ? Colors.white : kBlueColor,
                   ),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.only(left: 12),
+                      margin: const EdgeInsets.only(left: 15),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             user.name,
-                            style: blackTextStyle.copyWith(fontSize: 16),
+                            style: isBlack
+                                ? whiteTextStyle.copyWith(fontSize: 16)
+                                : blackTextStyle.copyWith(fontSize: 16),
                           ),
                           Text(
                             user.email,
@@ -90,6 +119,7 @@ class SettingPage extends StatelessWidget {
                     ),
                   ),
                   Container(
+                    margin: const EdgeInsets.only(left: 5),
                     width: 16,
                     height: 25,
                     decoration: const BoxDecoration(
@@ -114,10 +144,15 @@ class SettingPage extends StatelessWidget {
           children: [
             Text(
               'Pengaturan',
-              style: blackTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: semiBold,
-              ),
+              style: isBlack
+                  ? whiteTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semiBold,
+                    )
+                  : blackTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semiBold,
+                    ),
             ),
             const SizedBox(height: 15),
             Column(
@@ -131,25 +166,38 @@ class SettingPage extends StatelessWidget {
                     const SizedBox(width: 15),
                     Text(
                       'Dark Mode',
-                      style: blackTextStyle.copyWith(fontSize: 16),
+                      style: isBlack
+                          ? whiteTextStyle.copyWith(fontSize: 16)
+                          : blackTextStyle.copyWith(fontSize: 16),
                     ),
                     const Spacer(),
                     // switch button dark mode
-                    Container(
-                      width: 50,
-                      height: 25,
-                      decoration: BoxDecoration(
-                        color: kGreyColor1,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isBlack = !isBlack;
+                        });
+                      },
                       child: Container(
-                        margin:
-                            const EdgeInsets.only(top: 5, bottom: 5, right: 25),
-                        width: 25,
+                        width: 50,
                         height: 25,
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: kPrimaryColor,
+                          color: kGreyColor1,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          margin: EdgeInsets.only(
+                              top: 5,
+                              bottom: 5,
+                              right: (isBlack) ? 0 : 25,
+                              left: isBlack ? 25 : 0),
+                          width: 25,
+                          height: 25,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: kPrimaryColor,
+                          ),
                         ),
                       ),
                     )
@@ -158,52 +206,84 @@ class SettingPage extends StatelessWidget {
                 const SizedBox(height: 15),
               ],
             ),
-            Row(
-              children: [
-                Image.asset(
-                  'assets/language.png',
-                  width: 45,
-                ),
-                const SizedBox(width: 15),
-                Text(
-                  'Bahasa',
-                  style: blackTextStyle.copyWith(fontSize: 16),
-                ),
-                const Spacer(),
-                Container(
-                  width: 16,
-                  height: 25,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/nexticon.png'),
+            GestureDetector(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    duration: const Duration(seconds: 2),
+                    backgroundColor: kBlueColor,
+                    content: Text(
+                      'Untuk sekarang baru ada satu bahasa.',
+                      style: whiteTextStyle.copyWith(fontSize: 12),
                     ),
                   ),
-                )
-              ],
+                );
+              },
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/language.png',
+                    width: 45,
+                  ),
+                  const SizedBox(width: 15),
+                  Text(
+                    'Bahasa',
+                    style: isBlack
+                        ? whiteTextStyle.copyWith(fontSize: 16)
+                        : blackTextStyle.copyWith(fontSize: 16),
+                  ),
+                  const Spacer(),
+                  Container(
+                    width: 16,
+                    height: 25,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/nexticon.png'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
             const SizedBox(height: 15),
-            Row(
-              children: [
-                Image.asset(
-                  'assets/help.png',
-                  width: 45,
-                ),
-                const SizedBox(width: 15),
-                Text(
-                  'Bantuan',
-                  style: blackTextStyle.copyWith(fontSize: 16),
-                ),
-                const Spacer(),
-                Container(
-                  width: 16,
-                  height: 25,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/nexticon.png'),
+            GestureDetector(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    duration: const Duration(seconds: 2),
+                    backgroundColor: kBlueColor,
+                    content: Text(
+                      'Fitur ini belum tersedia',
+                      style: whiteTextStyle.copyWith(fontSize: 12),
                     ),
                   ),
-                )
-              ],
+                );
+              },
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/help.png',
+                    width: 45,
+                  ),
+                  const SizedBox(width: 15),
+                  Text(
+                    'Bantuan',
+                    style: isBlack
+                        ? whiteTextStyle.copyWith(fontSize: 16)
+                        : blackTextStyle.copyWith(fontSize: 16),
+                  ),
+                  const Spacer(),
+                  Container(
+                    width: 16,
+                    height: 25,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/nexticon.png'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ],
         ),
@@ -251,8 +331,9 @@ class SettingPage extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: isBlack ? Colors.black : kBackgroundColor,
       body: StreamBuilder<UserModel>(
-        stream: UserService().stremUserbyID(id),
+        stream: UserService().stremUserbyID(widget.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(

@@ -64,8 +64,8 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               child: Container(
-                height: 40,
-                width: 40,
+                height: 35,
+                width: 35,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(

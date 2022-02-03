@@ -78,13 +78,27 @@ class _EditProfileState extends State<EditProfile> {
               width: 120,
               height: 120,
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 8),
-              child: Text(
-                'Ubah Foto',
-                style: blackTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: semiBold,
+            GestureDetector(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    duration: const Duration(seconds: 2),
+                    backgroundColor: kBlueColor,
+                    content: Text(
+                      'Fitur ini belum tersedia',
+                      style: whiteTextStyle.copyWith(fontSize: 12),
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                margin: const EdgeInsets.only(top: 8),
+                child: Text(
+                  'Ubah Foto',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: semiBold,
+                  ),
                 ),
               ),
             ),

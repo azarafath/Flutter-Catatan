@@ -3,8 +3,8 @@
     <!-- internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="catatan"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Catatan"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
